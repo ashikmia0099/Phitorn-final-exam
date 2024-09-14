@@ -176,15 +176,13 @@ def CommentForms_views(request,id):
 def faveriteForm(request, id):
     if request.method == 'POST' and request.user.is_authenticated:
         product = get_object_or_404(Card_model, pk=id)
-        
-        # Check if the product is already in favorites for the current user
+    
         favorite, created = SelectFavorite_cloth.objects.get_or_create(user=request.user, Product=product)
         
-        # Toggle the favorite status
+       
         favorite.favorite = not favorite.favorite
         favorite.save()
         
-        # Provide feedback to the user
         if favorite.favorite:
             messages.success(request, 'Added to favorites!')
         else:
