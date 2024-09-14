@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db.models import Avg
 from django.db.models import Sum
 
-def HomePageView(request , size_slug = None, color_slug =None, price = None, rating = None):
+def HomePageView(request , size_slug = None, color_slug =None, price = None):
     
     
     product_size = Product_Size_model.objects.all()
@@ -18,17 +18,17 @@ def HomePageView(request , size_slug = None, color_slug =None, price = None, rat
     maximum_price = int(maximum_price) if maximum_price else 0
 
 
-
-
+    if  color_slug is not None:
+        color = Product_Color_model.objects.get(slug = color_slug)
+        card_data = Card_model.objects.filter(Product_color=color)
+    
+    
+    
     if  size_slug is not None:
         size = Product_Size_model.objects.get(slug = size_slug)
         card_data = Card_model.objects.filter(Product_size=size)
         
         
-    if  color_slug is not None:
-        color = Product_Color_model.objects.get(slug = color_slug)
-        card_data = Card_model.objects.filter(Product_color=color)
-    
         
         
     selected_price = request.GET.get('price')

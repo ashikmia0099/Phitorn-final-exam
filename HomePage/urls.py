@@ -7,7 +7,7 @@ urlpatterns = [
     
     path('',HomePageView, name='homepage'),
     path('size-wise-filter/<str:size_slug>',HomePageView, name='SizeWise_Filter'),
-    path('color-wise-filter/<str:color_slug>',HomePageView, name='SizeWise_Filter'),
+    path('color-wise-filter/<str:color_slug>',HomePageView, name='ColorWise_Filter'),
     path('Cloth-wise-filter/<int:id>',Product_DetailViews, name='product_detail'), 
     path('Comment/<int:id>',CommentForms_views, name='CommentForms_views'),
     path('Faverite/<int:id>',faveriteForm, name='faveriteForm'),
