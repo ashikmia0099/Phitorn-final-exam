@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fashon Yeallow</title>
     
     <!-- dusy ui and tailwind cdn -->
 
@@ -87,7 +87,12 @@
                   <li><a href="">Male</a></li>
                   <li><a>Female</a></li>
                   <li><a href="">Baby</a></li> 
+                  {% if request.user.is_authenticated %}
                   <li><a href="{% url 'Faverite_items' %}">Favorite Items</a></li>
+                  {%else%}
+                  <p></p>
+                  {% endif %}
+                  
                   <li><a href="{% url 'Logout' %}">Logout</a></li>
                   <div class="flex-none gap-2">
                     <div class="form-control">
@@ -150,7 +155,7 @@
                 <li class=" text-lg text-white"><a>Male</a></li>
                 <li class=" text-lg text-white"><a>Female</a></li>
                 <li class=" text-lg text-white"><a>Baby</a></li>
-                <li class=" text-lg text-white"><a href="{% url 'Faverite_items' %}">Favorite Items</a></li>
+                
                 
             </ul>
             </div>

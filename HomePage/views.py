@@ -74,19 +74,19 @@ def HomePageView(request , size_slug = None, color_slug =None, price = None, rat
 #     category = get_object_or_404(Card_model, pk=id)
 #     data_filter = Card_model.objects.filter(id=category.id)
     
-#     # Get all comments for the current product
+  
 #     card_comment_filter = Comment.objects.filter(Product=category)
     
 #     rating_sum = card_comment_filter.aggregate(Sum('rating'))['rating__sum'] or 0
 #     print(rating_sum)    
-#     # Calculate average rating
-#     rating_avg = card_comment_filter.aggregate(Avg('rating'))['rating__avg'] or 0
-#     rating_avg = round(rating_avg, 1)  # No need to divide by 5; ratings are already between 1 and 5
     
-#     # Calculate if there is a half star (check if rating_avg has a decimal part)
+#     rating_avg = card_comment_filter.aggregate(Avg('rating'))['rating__avg'] or 0
+#     rating_avg = round(rating_avg, 1) 
+    
+   
 #     rating_avg_half = rating_avg % 1 != 0
 
-#     # Check if the user has rated this product
+    
 #     user_rating = None
 #     if request.user.is_authenticated:
 #         user_rating = Comment.objects.filter(Product=category, user=request.user).aggregate(Max('rating'))['rating__max']
