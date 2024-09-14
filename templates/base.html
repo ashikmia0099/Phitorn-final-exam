@@ -156,7 +156,7 @@
                 <li class=" text-lg text-white"><a>Female</a></li>
                 <li class=" text-lg text-white"><a>Baby</a></li>
                 {% if request.user.is_authenticated %}
-                  <li><a href="{% url 'Faverite_items' %}">Favorite Items</a></li>
+                  <li class=" text-lg text-white"><a href="{% url 'Faverite_items' %}">Favorite Items</a></li>
                   {%else%}
                   <p></p>
                   {% endif %}
