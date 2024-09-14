@@ -1,0 +1,180 @@
+
+{% extends "base.html" %}
+
+{% block blockname %}
+
+
+{% if data_filter %}
+
+{% for i in data_filter %}
+  
+
+  
+<div class="card glass mt-10 mx-nabgarmargin h-2/4">
+  <figure>
+    <img
+      src='{{ i.images.url }}' />
+  </figure> 
+  <div class="card-body gap-5">
+    <h2 class="card-title lg:text-4xl text-white">Price: <span class="lg:text-3xl">$ {{i.Product_price}} </span></h2>
+    <h2 class="card-title lg:text-2xl text-white">Available Size: <span class="lg:text-xl">{{i.Product_size}}</span></h2>
+    <h2 class="card-title lg:text-2xl text-white">Color:<span class="lg:text-xl">{{i.Product_color}}</span></h2>
+    <h2 class="card-title lg:text-2xl text-white">Reviews:<span class="lg:text-xl">
+      <div class="rating">
+        {% for star in "12345" %}
+            <input type="radio" name="rating-2" value="{{ forloop.counter }}" class="mask mask-star-2 {% if user_rating and forloop.counter <= user_rating %}bg-red-800{% else %}bg-gray-100{% endif %}" {% if user_rating == forloop.counter %}checked{% endif %} />
+        {% endfor %}
+    </div>
+    
+    </span></h2>
+    <h2 class="card-title text-2xl text-white">Total Reviews:<span class="text-xl">{{rating_avrage}} Out of 5</span></h2>
+    <div class="stats shadow">
+      <div class="stat">
+        <div class="stat-figure text-primary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="inline-block h-8 w-8 stroke-current">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
+        </div>
+        <div class="stat-title">Total Reviews</div>
+        <div class="stat-value text-primary"> {{rating_sum}} </div>
+        <div class="stat-desc">21% more than last month</div>
+      </div>
+    
+      <div class="stat">
+        <div class="stat-figure text-secondary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="inline-block h-8 w-8 stroke-current">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <div class="stat-title">Page Views</div>
+        <div class="stat-value text-secondary">2.6M</div>
+        <div class="stat-desc">21% more than last month</div>
+      </div>
+    
+      <div class="stat">
+        <div class="stat-figure text-secondary">
+          <div class="avatar online">
+            <div class="w-16 rounded-full">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+        </div>
+        <div class="stat-title">Reviews Ratio</div>
+        <div class="stat-value">86%</div>
+        
+        <div class="stat-desc text-secondary">31 tasks remaining</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endfor %}
+
+{% else %}
+
+<h1>data not found</h1>
+  
+{% endif %}
+
+
+
+<!-- comment option -->
+
+
+<div class="mt-10 mx-nabgarmargin">
+  {% if card_comment_filter %}
+      <div>
+          <h1 class="lg:text-3xl text-white pb-3" style="border-bottom: 2px solid gray;">
+              Total Comments : <span class="lg:text-2xl">{{ card_comment_filter|length }}</span>
+          </h1>
+      </div>
+  {% else %}
+      <div>
+          <h1 class="lg:text-3xl text-white pb-3" style="border-bottom: 2px solid gray;">
+              Total Comments : <span class="lg:text-2xl">0</span>
+          </h1>
+      </div>
+  {% endif %}
+
+  {% if request.user.is_authenticated %}
+      <form method="post" action="{% url 'CommentForms_views' category.id %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="flex pt-5 font-bold align-center gap-6">
+              <div>
+                  <h1 class="text-3xl">Reviews: </h1>
+              </div>
+              <div class="pt-1">
+                  <div class="rating">
+                      <input type="radio" name="rating" value="5" class="mask mask-star bg-green-500" />
+                      <input type="radio" name="rating" value="4" class="mask mask-star bg-green-500" />
+                      <input type="radio" name="rating" value="3" class="mask mask-star bg-green-500" />
+                      <input type="radio" name="rating" value="2" class="mask mask-star bg-green-500" />
+                      <input type="radio" name="rating" value="1" class="mask mask-star bg-green-500" />
+                  </div>
+              </div>
+          </div> 
+          <div class="mt-4 mb-4">
+              <textarea class="textarea textarea-primary w-4/5" rows="6" name="Text" placeholder="Write Your Comments"></textarea> <br>
+              <button class="btn btn-outline btn-primary">Submit</button>
+          </div>
+      </form>
+  {% else %}
+      <form method="post" action="{% url 'CommentForms_views' category.id %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mt-4 mb-4">
+              <textarea class="textarea textarea-primary w-4/5" rows="6" placeholder="Write Your Comments" disabled></textarea> <br>
+              <button class="btn btn-outline btn-primary" disabled>Please Login</button>
+          </div>
+      </form>
+  {% endif %}
+
+  <!-- Comment Show Section -->
+  {% for i in card_comment_filter %}
+      <div class="mt-10 flex gap-10 mb-6 text-white">
+          <div>
+              <div class="avatar">
+                  <div class="w-14 rounded-full">
+                      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                  </div>
+              </div>
+          </div>
+          <div class="gap-5">
+              <div class="flex gap-6">
+                  <h1 class="lg:text-xl font-bold">{{ i.user.email }}</h1>
+              </div>
+              <div class="lg:w-3/4 mt-5">
+                  <h1>{{ i.Text }}</h1>
+              </div>
+          </div>
+      </div>
+  {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+  
+  
+{% endblock blockname %}

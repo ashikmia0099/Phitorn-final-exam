@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load static %}
+{% block blockname %}
+        
+
+
+<!-- carusel part -->
+
+<div class="carousel mx-nabgarmargin mt-5 mb-10 h-[500px] rounded-2xl">
+    <div id="slide1" class="carousel-item relative w-full">
+      <img
+        src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
+        class="w-full" />
+      <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+        <a href="#slide4" class="btn btn-circle">❮</a>
+        <a href="#slide2" class="btn btn-circle">❯</a>
+      </div>
+    </div>
+    <div id="slide2" class="carousel-item relative w-full">
+      <img
+        src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
+        class="w-full" />
+      <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+        <a href="#slide1" class="btn btn-circle">❮</a>
+        <a href="#slide3" class="btn btn-circle">❯</a>
+      </div>
+    </div>
+    <div id="slide3" class="carousel-item relative w-full">
+      <img
+        src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
+        class="w-full" />
+      <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+        <a href="#slide2" class="btn btn-circle">❮</a>
+        <a href="#slide4" class="btn btn-circle">❯</a>
+      </div>
+    </div>
+    <div id="slide4" class="carousel-item relative w-full">
+      <img
+        src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
+        class="w-full" />
+      <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+        <a href="#slide3" class="btn btn-circle">❮</a>
+        <a href="#slide1" class="btn btn-circle">❯</a>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- card part -->
+
+
+<div class="lg:grid lg:grid-cols-5 gap-x-10 mx-nabgarmargin">
+
+    <!-- left card -->
+
+    <div class=" col-span-1 ">
+       
+      <div class="collapse collapse-arrow bg-slate-800 mb-5">
+        <input type="radio" name="my-accordion-2" checked="checked" />
+        <div class="collapse-title text-xl font-medium">Price Range</div>
+        <div class="collapse-content">
+          <!-- Slider input for price range -->
+          <input id="priceRange" 
+                 type="range" 
+                 min="0" 
+                 max="{{ maximum_price }}" 
+                 value="0" 
+                 class="range range-primary" 
+                 oninput="updatePriceDisplay(this.value)" 
+                 onchange="updatePriceFilter()" />
+          
+          <div class="grid grid-cols-2 justify-between">
+              <div>
+                  <!-- Display the dynamic value as the slider is moved -->
+                  <h1 id="minValue">0</h1>
+              </div>
+              <div>
+                  <!-- Display the maximum price -->
+                  <h1 class="text-right">{{ maximum_price }}</h1>
+              </div>
+          </div>
+      </div>
+      
+      </div>
+      
+      
+          
+      
+        
+        <div class="collapse collapse-arrow bg-slate-800	 mb-5">
+          <input type="radio" name="my-accordion-2" checked="checked" />
+          <div class="collapse-title text-xl font-medium">Product Popularity</div>
+          <div class="collapse-content">
+            <ul>
+                
+              <li><label class="text-xl"><input type="checkbox" > 1</label> </li>
+              <li><label class="text-xl"><input type="checkbox" > 2</label> </li>
+              <li><label class="text-xl"><input type="checkbox" > 3</label> </li>
+              <li><label class="text-xl"><input type="checkbox" > 4</label> </li>
+              <li><label class="text-xl"><input type="checkbox" > 5</label> </li>
+              
+            </ul>
+             
+          </div>
+        </div>
+
+        {% if show_color_wise_filter %}
+    <h3>Filtered Products by Size: {{ category.size }}</h3>
+    <ul>
+        {% for product in show_color_wise_filter %}
+        <li>{{ product.Product_Name }} - {{ product.Product_price }} - {{ product.Select_gender }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+<!-- Keep the size filter intact -->
+        {% if product_size %}
+            <div class="collapse collapse-arrow bg-slate-800 mb-5">
+              <input type="radio" name="my-accordion-2" checked="checked" />
+              <div class="collapse-title text-xl font-medium">Product Size</div>
+              <div class="collapse-content">
+                <ul>
+                  {% for i in product_size %}
+                  <li>
+                      <a href="{% url 'SizeWise_Filter' i.slug %}" class="text-xl"> {{ i.size }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+        {% if product_color %}
+        <div class="collapse collapse-arrow bg-slate-800	 mb-5">
+          <input type="radio" name="my-accordion-2" checked="checked" />
+          <div class="collapse-title text-xl font-medium">Product Color</div>
+          <div class="collapse-content">
+            <ul>
+              {% for i in product_color %}
+              <li>  <a href="{% url 'SizeWise_Filter' i.slug %}" class="text-xl "> {{i.color}}</a> </li>
+
+              {% endfor %}
+              
+            </ul>
+           
+             
+          </div>
+        </div>
+        
+        {% else %}
+        <h1></h1>
+        {% endif %}
+        
+    </div>
+
+
+
+    <style>
+     
+  
+      #hard-box:checked + .hart-label i {
+          color: red;
+      }
+  </style>
+
+
+    <!-- right card -->
+
+    <div class="lg:col-span-4 pb-10">
+        <div class="lg:grid lg:grid-cols-3 gap-x-5">
+          {% if card_data %}
+            {% for i in card_data %}
+            <div class="card bg-base-100 mt-7  shadow-xl">
+              <figure>
+                <img src="{{i.images.url}}" />
+              </figure>
+              <div class="card-body">
+                  <div class="flex justify-between ">
+                    <div>
+                      <a href="{% url 'product_detail' i.id %}"><h2 class="card-title text-2xl"> {{i.Product_Name}} </h2></a>
+                    </div>
+                    <form method="POST" action="{% url 'faveriteForm' i.id %}">
+                      {% csrf_token %}
+                      <input type="checkbox" id="hard-box-{{ i.id }}" name="favorite" class="peer hidden" 
+                             onchange="this.form.submit();" 
+                             {% if i.is_favorite %} checked {% endif %} />
+                      
+                      <label for="hard-box-{{ i.id }}" class="hart-label">
+                        <i class="fa-solid fa-heart text-2xl cursor-pointer {% if i.is_favorite %} text-red-500 {% else %} text-gray-400 {% endif %}"></i>
+                      </label>
+                    </form>
+                    <div>
+
+                    </div>
+                  </div>
+                  <h2>Size:  {{i.Product_size.size}}</h2>
+                  <h2>Color:  {{i.Product_color.color}} </h2>
+                  <h2 class="">Reviews:
+                   <!-- homepage.html -->
+                   <div class="rating rating-lg rating-half">
+                    {% for star in "12345" %}
+                        <input type="radio" name="rating-{{ category.id }}" value="{{ forloop.counter }}"
+                               class="mask mask-star-2 {% if forloop.counter <= rating_avg %}bg-red-500{% elif forloop.counter <= rating_avg_half %}bg-red-300{% else %}bg-gray-100{% endif %}"
+                               disabled />
+                    {% endfor %}
+                </div>
+                
+                
+                  </h2>
+                  
+                  <p>Total Reviews:<span id="rating-value">{{ rating_avg }} Out of 5</span></p>
+
+              </div>
+              
+                <div class="card-actions justify-between  pb-5 mx-5">
+                  <h1 class="font-bold text-3xl">$  {{i.Product_price}}</h1>
+                  <button class="btn btn-primary">Buy Now</button>
+                </div>
+          </div>
+            {% endfor %}
+          {% else %}
+            <h1>data not found</h1>
+          {% endif %}
+          
+        
+        </div>
+
+     
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<script>
+  
+  function updatePriceDisplay(value) {
+      document.getElementById('minValue').textContent = value;
+  }
+
+  
+  function updatePriceFilter() {
+      const value = document.getElementById('priceRange').value;
+      
+     
+      const params = new URLSearchParams(window.location.search);
+      params.set('price', value);
+      
+      window.location.search = params.toString();
+  }
+</script>
+
+
+
+
+{% endblock blockname %}
