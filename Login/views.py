@@ -89,7 +89,7 @@ def LoginPage(request):
     else:
         form = AuthenticationForm()
         
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'Login.html', {'form': form})
 
 
 
